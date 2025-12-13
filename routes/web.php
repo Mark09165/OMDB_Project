@@ -31,3 +31,12 @@ Route::get('/favorites/{id}/edit', [FavoriteController::class, 'edit'])
 
 Route::put('/favorites/{id}', [FavoriteController::class, 'update'])
     ->name('favorites.update'); // PUT para actualizar nota
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});

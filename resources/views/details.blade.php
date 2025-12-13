@@ -1,37 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ $movie['Title'] }}</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
 
 <h1>{{ $movie['Title'] }}</h1>
-<img src="{{ $movie['Poster'] }}" width="200">
 
-<p><strong>Año:</strong> {{ $movie['Year'] }}</p>
-<p><strong>Duración:</strong> {{ $movie['Runtime'] }}</p>
-<p><strong>Género:</strong> {{ $movie['Genre'] }}</p>
-<p><strong>Director:</strong> {{ $movie['Director'] }}</p>
-<p><strong>Actores:</strong> {{ $movie['Actors'] }}</p>
-<p><strong>Sinopsis:</strong> {{ $movie['Plot'] }}</p>
+<div class="row">
+    <div class="col-md-4">
+        <img src="{{ $movie['Poster'] }}" class="img-fluid">
+    </div>
 
-<hr>
+    <div class="col-md-8">
+        <p><strong>Año:</strong> {{ $movie['Year'] }}</p>
+        <p><strong>Género:</strong> {{ $movie['Genre'] }}</p>
+        <p><strong>Director:</strong> {{ $movie['Director'] }}</p>
+        <p><strong>Actores:</strong> {{ $movie['Actors'] }}</p>
+        <p><strong>Sinopsis:</strong> {{ $movie['Plot'] }}</p>
 
-<h2>Agregar a favoritos</h2>
+        <hr>
 
-<form action="{{ route('favorites.store') }}" method="POST">
-    @csrf
-    <input type="hidden" name="imdbID" value="{{ $movie['imdbID'] }}">
-    <input type="hidden" name="title" value="{{ $movie['Title'] }}">
-    <input type="hidden" name="poster" value="{{ $movie['Poster'] }}">
-    <label>Nota / Reseña (opcional):</label><br>
-    <textarea name="note" rows="4" cols="40"></textarea>
-    <br><br>
-    <button type="submit">Guardar en favoritos</button>
-</form>
+        <h5>Agregar a favoritos</h5>
 
-<br>
-<a href="/movies">← Volver</a>
+        <form action="{{ route('favorites.store') }}" method="POST">
+            @csrf
+            <input type="hidden" name="imdbID" value="{{ $movie['imdbID'] }}">
+            <input type="hidden" name="title" value="{{ $movie['Title'] }}">
+            <input type="hidden" name="poster" value="{{ $movie['Poster'] }}">
 
-</body>
-</html>
+            <textarea name="note" class="form-control mb-2" placeholder="Nota (opcional)"></textarea>
+
+            <button class="btn btn-success">Guardar en favoritos</button>
+        </form>
+    </div>
+</div>
+
+@endsection
