@@ -1,3 +1,4 @@
+Dockerfile
 FROM php:8.2-cli
 
 # Dependencias del sistema incluyendo PostgreSQL
@@ -29,5 +30,5 @@ RUN mkdir -p storage/framework/{sessions,views,cache} \
 ENV PORT=8080
 EXPOSE ${PORT}
 
-# Arrancar servidor (sin migraciones por ahora)
+# Solo arrancar el servidor (SIN migraciones automáticas)
 CMD php artisan serve --host=0.0.0.0 --port=${PORT}
