@@ -19,15 +19,15 @@ COPY . .
 # Instalar dependencias PHP
 RUN composer install --no-dev --optimize-autoloader
 
-# Permisos para storage y cache
-RUN chmod -R 775 storage bootstrap/cache
+# Crear directorios si no existen y dar permisos
+RUN mkdir -p storage/framework/{sessions,views,cache} \
+    && mkdir -p storage/logs \
+    && mkdir -p bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
 
 # Usar variable de entorno PORT de Zeabur
 ENV PORT=8080
 EXPOSE ${PORT}
 
-# Script de inicio que ejecuta migraciones y arranca el servidor
-CMD php artisan config:cache && \
-    php artisan route:cache && \
-    php artisan migrate --force && \
-    php artisan serve --host=0.0.0.0 --port=${PORT}
+# Arrancar servidor (sin migraciones por ahora)
+CMD php artisan serve --host=0.0.0.0 --port=${PORT}
