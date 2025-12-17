@@ -1,9 +1,11 @@
 FROM php:8.2-cli
 
-# Dependencias del sistema
+# Dependencias del sistema incluyendo PostgreSQL
 RUN apt-get update && apt-get install -y \
     git unzip zip libzip-dev \
-    && docker-php-ext-install zip pdo pdo_mysql
+    libpq-dev \
+    && docker-php-ext-install zip pdo pdo_mysql pdo_pgsql \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
@@ -24,5 +26,8 @@ RUN chmod -R 775 storage bootstrap/cache
 ENV PORT=8080
 EXPOSE ${PORT}
 
-# Arranque de Laravel usando variable PORT
-CMD php artisan serve --host=0.0.0.0 --port=${PORT}
+# Script de inicio que ejecuta migraciones y arranca el servidor
+CMD php artisan config:cache && \
+    php artisan route:cache && \
+    php artisan migrate --force && \
+    php artisan serve --host=0.0.0.0 --port=${PORT}
