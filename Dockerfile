@@ -1,4 +1,3 @@
-Dockerfile
 FROM php:8.2-cli
 
 # Dependencias del sistema incluyendo PostgreSQL
