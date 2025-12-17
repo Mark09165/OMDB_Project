@@ -17,8 +17,12 @@ COPY . .
 # Instalar dependencias PHP
 RUN composer install --no-dev --optimize-autoloader
 
-# Puerto que usa Render
-EXPOSE 10000
+# Permisos para storage y cache
+RUN chmod -R 775 storage bootstrap/cache
 
-# Arranque de Laravel
-CMD php artisan serve --host=0.0.0.0 --port=10000
+# Usar variable de entorno PORT de Zeabur
+ENV PORT=8080
+EXPOSE ${PORT}
+
+# Arranque de Laravel usando variable PORT
+CMD php artisan serve --host=0.0.0.0 --port=${PORT}
