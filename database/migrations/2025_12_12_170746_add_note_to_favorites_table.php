@@ -8,9 +8,9 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('favorites', function (Blueprint $table) {
-            $table->text('note')->nullable(); // reseña opcional
-        });
+        //Schema::table('favorites', function (Blueprint $table) {
+        //    $table->text('note')->nullable(); // reseña opcional
+        //});
     }
 
     public function down(): void
